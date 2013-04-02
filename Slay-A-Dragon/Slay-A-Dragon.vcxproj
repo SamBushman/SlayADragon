@@ -10,6 +10,16 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\BaseApplication.h" />
+    <ClInclude Include="include\CollisionTools.h" />
+    <ClInclude Include="include\TutorialApplication.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\BaseApplication.cpp" />
+    <ClCompile Include="src\CollisionTools.cpp" />
+    <ClCompile Include="src\TutorialApplication.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3564767C-2AA1-4B45-B28E-B90FA4FE89C7}</ProjectGuid>
     <RootNamespace>SlayADragon</RootNamespace>
@@ -46,7 +56,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)\OgreSDK_1-8-1\boost;$(ProjectDir)\OgreSDK_1-8-1\include\OIS;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\OgreSDK_1-8-1\boost;$(ProjectDir)\OgreSDK_1-8-1\include\OIS;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -71,7 +81,7 @@ xcopy "$(SolutionDir)plugins_d.cfg" "$(TargetDir)" /Y</Command>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\OgreSDK_1-8-1\boost;$(ProjectDir)\OgreSDK_1-8-1\include\OIS;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\OgreSDK_1-8-1\boost;$(ProjectDir)\OgreSDK_1-8-1\include\OIS;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -92,14 +102,6 @@ xcopy "$(SolutionDir)plugins.cfg" "$(TargetDir)" /Y</Command>
       <Message>Copy OGRE dependencies to proper directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\Desktop\TutorialFramework\BaseApplication.h" />
-    <ClInclude Include="..\..\..\..\..\Desktop\TutorialFramework\TutorialApplication.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Desktop\TutorialFramework\BaseApplication.cpp" />
-    <ClCompile Include="..\..\..\..\..\Desktop\TutorialFramework\TutorialApplication.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
