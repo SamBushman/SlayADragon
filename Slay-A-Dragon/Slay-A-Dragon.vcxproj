@@ -11,14 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\BaseApplication.h" />
+    <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\CollisionTools.h" />
-    <ClInclude Include="include\TutorialApplication.h" />
+    <ClInclude Include="include\GameplayScreen.h" />
+    <ClInclude Include="include\ScreenManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\BaseApplication.cpp" />
+    <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\CollisionTools.cpp" />
-    <ClCompile Include="src\TutorialApplication.cpp" />
+    <ClCompile Include="src\GameplayScreen.cpp" />
+    <ClCompile Include="src\ScreenManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3564767C-2AA1-4B45-B28E-B90FA4FE89C7}</ProjectGuid>
@@ -82,6 +84,8 @@ xcopy "$(SolutionDir)plugins_d.cfg" "$(TargetDir)" /Y</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\OgreSDK_1-8-1\boost;$(ProjectDir)\OgreSDK_1-8-1\include\OIS;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/wd4275
+/wd4251 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
