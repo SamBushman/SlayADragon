@@ -24,9 +24,9 @@ Application::Application(void)
     mWindow(0),
     mResourcesCfg(Ogre::StringUtil::BLANK),
     mPluginsCfg(Ogre::StringUtil::BLANK),
-    mTrayMgr(0),
-    mCameraMan(0),
-    mDetailsPanel(0),
+    //mTrayMgr(0),
+    //mCameraMan(0),
+    //mDetailsPanel(0),
     mCursorWasVisible(false),
     mShutDown(false),
     mInputManager(0),
@@ -38,8 +38,8 @@ Application::Application(void)
 //-------------------------------------------------------------------------------------
 Application::~Application(void)
 {
-    if (mTrayMgr) delete mTrayMgr;
-    if (mCameraMan) delete mCameraMan;
+    //if (mTrayMgr) delete mTrayMgr;
+    //if (mCameraMan) delete mCameraMan;
 
     //Remove ourself as a Window listener
     Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
@@ -57,7 +57,7 @@ bool Application::configure(void)
     {
         // If returned true, user clicked OK so initialise
         // Here we choose to let the system create a default rendering window by passing 'true'
-        mWindow = mRoot->initialise(true, "TutorialApplication Render Window");
+        mWindow = mRoot->initialise(true, "Slay-A-Dragon");
 
         return true;
     }
@@ -79,12 +79,12 @@ void Application::createCamera(void)
     mCamera = mSceneMgr->createCamera("PlayerCam");
 
     // Position it at 500 in Z direction
-    mCamera->setPosition(Ogre::Vector3(0,0,80));
+    mCamera->setPosition(Ogre::Vector3(0,0,10));
     // Look back along -Z
     mCamera->lookAt(Ogre::Vector3(0,0,-300));
     mCamera->setNearClipDistance(5);
 
-    mCameraMan = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller
+    //mCameraMan = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller
 }
 //-------------------------------------------------------------------------------------
 void Application::createScene(void)
@@ -118,7 +118,7 @@ void Application::createFrameListener(void)
     //Register as a Window listener
     Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
 
-    mTrayMgr = new OgreBites::SdkTrayManager("InterfaceName", mWindow, mMouse, this);
+    /*mTrayMgr = new OgreBites::SdkTrayManager("InterfaceName", mWindow, mMouse, this);
     mTrayMgr->showFrameStats(OgreBites::TL_BOTTOMLEFT);
     mTrayMgr->showLogo(OgreBites::TL_BOTTOMRIGHT);
     mTrayMgr->hideCursor();
@@ -140,7 +140,7 @@ void Application::createFrameListener(void)
     mDetailsPanel = mTrayMgr->createParamsPanel(OgreBites::TL_NONE, "DetailsPanel", 200, items);
     mDetailsPanel->setParamValue(9, "Bilinear");
     mDetailsPanel->setParamValue(10, "Solid");
-    mDetailsPanel->hide();
+    mDetailsPanel->hide();*/
 
     mRoot->addFrameListener(this);
 }
@@ -255,7 +255,7 @@ bool Application::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mKeyboard->capture();
     mMouse->capture();
 
-    mTrayMgr->frameRenderingQueued(evt);
+    /*mTrayMgr->frameRenderingQueued(evt);
 
     if (!mTrayMgr->isDialogVisible())
     {
@@ -270,14 +270,14 @@ bool Application::frameRenderingQueued(const Ogre::FrameEvent& evt)
             mDetailsPanel->setParamValue(6, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().y));
             mDetailsPanel->setParamValue(7, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().z));
         }
-    }
+    }*/
 	ScreenManager::GetInstance()->Update(evt.timeSinceLastFrame);
     return true;
 }
 //-------------------------------------------------------------------------------------
 bool Application::keyPressed( const OIS::KeyEvent &arg )
 {
-    if (mTrayMgr->isDialogVisible()) return true;   // don't process any more keys if dialog is up
+    /*if (mTrayMgr->isDialogVisible()) return true;   // don't process any more keys if dialog is up
 
     if (arg.key == OIS::KC_F)   // toggle visibility of advanced frame stats
     {
@@ -365,38 +365,42 @@ bool Application::keyPressed( const OIS::KeyEvent &arg )
         mShutDown = true;
     }
 
-    mCameraMan->injectKeyDown(arg);
+    mCameraMan->injectKeyDown(arg);*/
+	if (arg.key == OIS::KC_ESCAPE)
+    {
+        mShutDown = true;
+    }
 	ScreenManager::GetInstance()->OnKeyPressed(arg);
     return true;
 }
 
 bool Application::keyReleased( const OIS::KeyEvent &arg )
 {
-    mCameraMan->injectKeyUp(arg);
+    //mCameraMan->injectKeyUp(arg);
 	ScreenManager::GetInstance()->OnKeyReleased(arg);
     return true;
 }
 
 bool Application::mouseMoved( const OIS::MouseEvent &arg )
 {
-    if (mTrayMgr->injectMouseMove(arg)) return true;
-    mCameraMan->injectMouseMove(arg);
+    /*if (mTrayMgr->injectMouseMove(arg)) return true;
+    mCameraMan->injectMouseMove(arg);*/
 	ScreenManager::GetInstance()->OnMouseMoved(arg);
     return true;
 }
 
 bool Application::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    if (mTrayMgr->injectMouseDown(arg, id)) return true;
-    mCameraMan->injectMouseDown(arg, id);
+    /*if (mTrayMgr->injectMouseDown(arg, id)) return true;
+    mCameraMan->injectMouseDown(arg, id);*/
 	ScreenManager::GetInstance()->OnMousePressed(arg, id);
     return true;
 }
 
 bool Application::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    if (mTrayMgr->injectMouseUp(arg, id)) return true;
-    mCameraMan->injectMouseUp(arg, id);
+    /*if (mTrayMgr->injectMouseUp(arg, id)) return true;
+    mCameraMan->injectMouseUp(arg, id);*/
 	ScreenManager::GetInstance()->OnMouseReleased(arg, id);
     return true;
 }

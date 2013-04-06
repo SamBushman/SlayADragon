@@ -14,6 +14,9 @@ public:
 	void OnMousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 	void OnMouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 	void Update(Ogre::Real timeSinceLastFrame);
+private:
+	Ogre::Entity* mStageEntity;
+	Ogre::SceneNode* mStageNode;
 };
 
 #endif

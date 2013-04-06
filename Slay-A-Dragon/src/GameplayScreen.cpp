@@ -2,7 +2,16 @@
 
 GameplayScreen::GameplayScreen()
 {
-	Ogre::Root::getSingletonPtr()->getSceneManager("ApplicationSceneManager")->setSkyBox(true, "SlayADragon/SkyBox");
+	Ogre::SceneManager* mSceneManager = Ogre::Root::getSingletonPtr()->getSceneManager("ApplicationSceneManager");
+	mSceneManager->setSkyBox(true, "SlayADragon/SkyBox");
+	Ogre::Light* directionalLight = mSceneManager->createLight("directionalLight");
+	directionalLight->setType(Ogre::Light::LT_DIRECTIONAL);
+	directionalLight->setPosition(Ogre::Vector3(0, 0, 250));
+	directionalLight->setDirection(Ogre::Vector3( 0, 1, -1 ));
+	mStageEntity = mSceneManager->createEntity("Stage", "Stage.mesh");
+	mStageNode = mSceneManager->getRootSceneNode()->createChildSceneNode("StageNode");
+	mStageNode->attachObject(mStageEntity);
+	mStageNode->setPosition(0.0f, -6.0f, -6.5f);
 }
 
 GameplayScreen::~GameplayScreen()
