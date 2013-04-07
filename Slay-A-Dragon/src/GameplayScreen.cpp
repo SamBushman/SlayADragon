@@ -12,6 +12,7 @@ GameplayScreen::GameplayScreen()
 	mStageNode = mSceneManager->getRootSceneNode()->createChildSceneNode("StageNode");
 	mStageNode->attachObject(mStageEntity);
 	mStageNode->setPosition(0.0f, -6.0f, -6.5f);
+	Ogre::SceneNode foo = Ogre::SceneNode(mSceneManager);
 }
 
 GameplayScreen::~GameplayScreen()
