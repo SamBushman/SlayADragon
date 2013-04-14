@@ -2,6 +2,8 @@
 #define GAMEPLAYSCREEN_H
 
 #include <ScreenManager.h>
+#include <Whacker.h>
+#include <Dragon.h>
 
 class GameplayScreen : public IScreen
 {
@@ -17,6 +19,8 @@ public:
 private:
 	Ogre::Entity* mStageEntity;
 	Ogre::SceneNode* mStageNode;
+	Whacker mWhacker;
+	std::vector<Dragon> mDragons;
 };
 
 #endif

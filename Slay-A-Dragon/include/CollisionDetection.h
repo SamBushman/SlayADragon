@@ -15,7 +15,7 @@ enum BoundingShape { BOX, SPHERE, CAPSULE, CYLINDER};
 
 class CollidableObject
 {
-private:
+protected:
 	dGeomID mGeom;
 	Ogre::SceneNode* mSceneNode;
 	bool isInWorld;

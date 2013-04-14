@@ -18,6 +18,7 @@ void CollidableObject::SetCollideShapeCylinder(dReal radius, dReal length)
 	mGeom = PhysWorld::GetSingletonPtr()->AddCylinder(radius, length);
 	dGeomSetData(mGeom, (void*)this);
 	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
+	isInWorld = true;
 }
 
 void CollidableObject::SetCollideShapeBox(dReal lx, dReal ly, dReal lz)
@@ -27,6 +28,7 @@ void CollidableObject::SetCollideShapeBox(dReal lx, dReal ly, dReal lz)
 	mGeom = PhysWorld::GetSingletonPtr()->AddBox(lx, ly, lz);
 	dGeomSetData(mGeom, (void*)this);
 	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
+	isInWorld = true;
 }
 
 void CollidableObject::SetCollideShapeSphere(dReal radius)
@@ -36,6 +38,7 @@ void CollidableObject::SetCollideShapeSphere(dReal radius)
 	mGeom = PhysWorld::GetSingletonPtr()->AddSphere(radius);
 	dGeomSetData(mGeom, (void*)this);
 	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
+	isInWorld = true;
 }
 
 void CollidableObject::SetCollideShapeCapsule(dReal radius, dReal length)
@@ -45,6 +48,7 @@ void CollidableObject::SetCollideShapeCapsule(dReal radius, dReal length)
 	mGeom = PhysWorld::GetSingletonPtr()->AddCapsule(radius, length);
 	dGeomSetData(mGeom, (void*)this);
 	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
+	isInWorld = true;
 }
 
 void CollidableObject::OnCollide(CollidableObject* other)

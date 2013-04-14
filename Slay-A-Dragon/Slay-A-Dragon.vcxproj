@@ -12,15 +12,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h" />
+    <ClInclude Include="include\Dragon.h" />
     <ClInclude Include="include\GameplayScreen.h" />
     <ClInclude Include="include\CollisionDetection.h" />
     <ClInclude Include="include\ScreenManager.h" />
+    <ClInclude Include="include\Whacker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Dragon.cpp" />
     <ClCompile Include="src\GameplayScreen.cpp" />
     <ClCompile Include="src\CollisionDetection.cpp" />
     <ClCompile Include="src\ScreenManager.cpp" />
+    <ClCompile Include="src\Whacker.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3564767C-2AA1-4B45-B28E-B90FA4FE89C7}</ProjectGuid>
@@ -59,6 +63,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(ProjectDir)\ode\include;$(ProjectDir)\include;$(ProjectDir)\OgreSDK_1-8-1\boost;$(ProjectDir)\OgreSDK_1-8-1\include\OIS;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/wd4275
+/wd4251 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
