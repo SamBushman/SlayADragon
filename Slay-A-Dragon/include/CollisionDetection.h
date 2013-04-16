@@ -19,14 +19,19 @@ protected:
 	dGeomID mGeom;
 	Ogre::SceneNode* mSceneNode;
 	bool isInWorld;
-
-public:
-	CollidableObject(Ogre::SceneNode* parent_node);
-	virtual ~CollidableObject();
+	Ogre::Vector3 geomOffset;
 	void SetCollideShapeCylinder(dReal radius, dReal length);
 	void SetCollideShapeBox(dReal lx, dReal ly, dReal lz);
 	void SetCollideShapeSphere(dReal radius);
 	void SetCollideShapeCapsule(dReal radius, dReal length);
+	void SetCanCollide(bool canCollide);
+	bool GetCanCollide();
+
+public:
+	CollidableObject(Ogre::SceneNode* parent_node);
+	CollidableObject(CollidableObject& other);
+	CollidableObject& operator=( const CollidableObject& rhs );
+	virtual ~CollidableObject();
 	const Ogre::SceneNode* GetSceneNode();
 	virtual void OnCollide(CollidableObject* other);
 	virtual void Update(Ogre::Real timeSinceLastFrame);
@@ -69,7 +74,6 @@ public:
 	dGeomID AddCapsule(dReal radius, dReal length);
 private:
 	static PhysWorld* _mSingleton;
-	std::map<std::string,std::vector<std::string>> ComplexObjectMap;
 	PhysWorld();
 };
 

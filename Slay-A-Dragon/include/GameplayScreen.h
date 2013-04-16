@@ -21,6 +21,10 @@ private:
 	Ogre::SceneNode* mStageNode;
 	Whacker mWhacker;
 	std::vector<Dragon> mDragons;
+	float timeBetweenPopups;
+	float timeSinceLastPopup;
+	unsigned int score;
+	int numPeasants;
 };
 
 #endif

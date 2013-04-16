@@ -5,19 +5,26 @@
 #include <OgreSceneManager.h>
 #include <OgreEntity.h>
 #include <OgreMath.h>
+#include <OgreParticleSystem.h>
+#include <OgrePointEmitter.h>
 
 class Whacker : public CollidableObject
 {
 public:
 	Whacker();
 	Whacker(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node);
+	Whacker::Whacker(Whacker& other);
+	Whacker& Whacker::operator=( const Whacker& rhs );
 	void SetMovePlane(Ogre::Vector3 normal, Ogre::Vector3 origin, Ogre::Real width, Ogre::Real height);
 	void Move(Ogre::Real delta_x, Ogre::Real delta_y);
 	bool Whack();
 	void OnCollide(CollidableObject* other);
 	void Update(Ogre::Real timeSinceLastFrame);
+	bool didHitDragon();
+
 
 private:
+	bool mDidHitDragon;
 	//Whack Animation Vars
 	bool isWhacking;
 	float targetPitch;
@@ -30,6 +37,10 @@ private:
 	Ogre::Vector3 towardAxis;
 	Ogre::Real planeWidth;
 	Ogre::Real planeHeight;
+	//Particle Vars
+	Ogre::PointEmitter* mParticleEmitter;
+	Ogre::SceneNode* mParticleNode;
+	Ogre::Vector3 mEmitterOffset;
 };
 
 #endif

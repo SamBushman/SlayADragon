@@ -62,7 +62,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)\ode\include;$(ProjectDir)\include;$(ProjectDir)\OgreSDK_1-8-1\boost;$(ProjectDir)\OgreSDK_1-8-1\include\OIS;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\ode\include;$(ProjectDir)\include;$(ProjectDir)\OgreSDK_1-8-1\boost;$(ProjectDir)\OgreSDK_1-8-1\include\OIS;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE\Plugins\ParticleFX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/wd4275
 /wd4251 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -76,6 +76,7 @@
 xcopy "$(ProjectDir)OgreSDK_1-8-1\bin\debug\OIS_d.dll" "$(OutDir)" /Y
 xcopy "$(ProjectDir)OgreSDK_1-8-1\bin\debug\RenderSystem_Direct3D9_d.dll" "$(TargetDir)" /Y
 xcopy "$(ProjectDir)OgreSDK_1-8-1\bin\debug\RenderSystem_GL_d.dll" "$(TargetDir)" /Y
+xcopy "$(ProjectDir)OgreSDK_1-8-1\bin\debug\Plugin_ParticleFX_d.dll" "$(TargetDir)" /Y
 xcopy "$(SolutionDir)resources_d.cfg" "$(TargetDir)" /Y
 xcopy "$(SolutionDir)plugins_d.cfg" "$(TargetDir)" /Y
 xcopy "$(ProjectDir)ode\bin\ode_single.dll" "$(TargetDir)" /Y</Command>
@@ -90,7 +91,7 @@ xcopy "$(ProjectDir)ode\bin\ode_single.dll" "$(TargetDir)" /Y</Command>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\ode\include;$(ProjectDir)\include;$(ProjectDir)\OgreSDK_1-8-1\boost;$(ProjectDir)\OgreSDK_1-8-1\include\OIS;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\OgreSDK_1-8-1\include\OGRE\Plugins\ParticleFX;$(ProjectDir)\ode\include;$(ProjectDir)\include;$(ProjectDir)\OgreSDK_1-8-1\boost;$(ProjectDir)\OgreSDK_1-8-1\include\OIS;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/wd4275
 /wd4251 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -106,6 +107,7 @@ xcopy "$(ProjectDir)ode\bin\ode_single.dll" "$(TargetDir)" /Y</Command>
 xcopy "$(ProjectDir)OgreSDK_1-8-1\bin\release\OIS.dll" "$(OutDir)" /Y
 xcopy "$(ProjectDir)OgreSDK_1-8-1\bin\release\RenderSystem_Direct3D9.dll" "$(TargetDir)" /Y
 xcopy "$(ProjectDir)OgreSDK_1-8-1\bin\release\RenderSystem_GL.dll" "$(TargetDir)" /Y
+xcopy "$(ProjectDir)OgreSDK_1-8-1\bin\release\Plugin_ParticleFX.dll" "$(TargetDir)" /Y
 xcopy "$(SolutionDir)resources.cfg" "$(TargetDir)" /Y
 xcopy "$(SolutionDir)plugins.cfg" "$(TargetDir)" /Y
 xcopy "$(ProjectDir)ode\bin\ode_single.dll" "$(TargetDir)" /Y</Command>

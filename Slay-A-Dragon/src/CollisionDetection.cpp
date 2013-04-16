@@ -4,6 +4,29 @@ CollidableObject::CollidableObject(Ogre::SceneNode* parent_node)
 {
 	//Do stuff here to create any entities and adding geometry to the scene graph
 	isInWorld = false;
+	geomOffset = Ogre::Vector3(0.0f, 0.0f, 0.0f);
+}
+
+CollidableObject::CollidableObject(CollidableObject& other)
+{
+	//PhysWorld::GetSingletonPtr()->UpdateObjPtr(other.mGeom, this);
+	mGeom = other.mGeom;
+	dGeomSetData(mGeom, (void*)this);
+	geomOffset = other.geomOffset;
+	isInWorld = other.isInWorld;
+	mSceneNode = other.mSceneNode;
+	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
+}
+
+CollidableObject& CollidableObject::operator=( const CollidableObject& rhs ) {
+	//PhysWorld::GetSingletonPtr()->UpdateObjPtr(rhs.mGeom, this);
+	mGeom = rhs.mGeom;
+	dGeomSetData(mGeom, (void*)this);
+	geomOffset = rhs.geomOffset;
+	isInWorld = rhs.isInWorld;
+	mSceneNode = rhs.mSceneNode;
+	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
+	return *this;
 }
 
 CollidableObject::~CollidableObject()
@@ -17,8 +40,8 @@ void CollidableObject::SetCollideShapeCylinder(dReal radius, dReal length)
 		dGeomDestroy(mGeom);
 	mGeom = PhysWorld::GetSingletonPtr()->AddCylinder(radius, length);
 	dGeomSetData(mGeom, (void*)this);
-	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
 	isInWorld = true;
+	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
 }
 
 void CollidableObject::SetCollideShapeBox(dReal lx, dReal ly, dReal lz)
@@ -27,8 +50,8 @@ void CollidableObject::SetCollideShapeBox(dReal lx, dReal ly, dReal lz)
 		dGeomDestroy(mGeom);
 	mGeom = PhysWorld::GetSingletonPtr()->AddBox(lx, ly, lz);
 	dGeomSetData(mGeom, (void*)this);
-	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
 	isInWorld = true;
+	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
 }
 
 void CollidableObject::SetCollideShapeSphere(dReal radius)
@@ -37,8 +60,8 @@ void CollidableObject::SetCollideShapeSphere(dReal radius)
 		dGeomDestroy(mGeom);
 	mGeom = PhysWorld::GetSingletonPtr()->AddSphere(radius);
 	dGeomSetData(mGeom, (void*)this);
-	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
 	isInWorld = true;
+	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
 }
 
 void CollidableObject::SetCollideShapeCapsule(dReal radius, dReal length)
@@ -47,8 +70,21 @@ void CollidableObject::SetCollideShapeCapsule(dReal radius, dReal length)
 		dGeomDestroy(mGeom);
 	mGeom = PhysWorld::GetSingletonPtr()->AddCapsule(radius, length);
 	dGeomSetData(mGeom, (void*)this);
-	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
 	isInWorld = true;
+	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
+}
+
+void CollidableObject::SetCanCollide(bool canCollide)
+{
+	if(canCollide)
+		dGeomEnable(mGeom);
+	else
+		dGeomDisable(mGeom);
+}
+
+bool CollidableObject::GetCanCollide()
+{
+	return dGeomIsEnabled(mGeom);
 }
 
 void CollidableObject::OnCollide(CollidableObject* other)
@@ -61,11 +97,14 @@ void CollidableObject::Update(Ogre::Real timeSinceLastFrame)
 {
 	//In the base case, the geom's orientation and position are synced with
 	//the referenced scene node
-	Ogre::Vector3 curPos = mSceneNode->getPosition();
-	Ogre::Quaternion curOrient = mSceneNode->getOrientation();
-	float dCurOrient[] = {curOrient.w, curOrient.x, curOrient.y, curOrient.z};
-	dGeomSetPosition(mGeom, curPos.x, curPos.y, curPos.z);
-	dGeomSetQuaternion(mGeom, dCurOrient);
+	if(isInWorld)
+	{
+		Ogre::Quaternion curOrient = mSceneNode->getOrientation();
+		Ogre::Vector3 curPos = mSceneNode->getPosition() + (curOrient * geomOffset);
+		float dCurOrient[] = {curOrient.w, curOrient.x, curOrient.y, curOrient.z};
+		dGeomSetPosition(mGeom, curPos.x, curPos.y, curPos.z);
+		dGeomSetQuaternion(mGeom, dCurOrient);
+	}
 }
 
 const Ogre::SceneNode* CollidableObject::GetSceneNode()
@@ -134,7 +173,7 @@ void PhysWorld::DeInitialize()
 void PhysWorld::Update(double timeSinceLastFrame)
 {
 	//Check for collisions (mCallback is called if a collision May occur)
-	dSpaceCollide(mSpace, NULL, mCallback);
+	dSpaceCollide(mSpace, (void *)this, mCallback);
 
 	//Update the Physical Simulation
 	if (timeSinceLastFrame > 0)
@@ -165,6 +204,7 @@ void PhysWorld::mCallback(void * data, dGeomID g1, dGeomID g2)
 	else
 	{
 		// Call the geoms' callbacks
+		PhysWorld* pWorld = (PhysWorld*)data;
 		CollidableObject* colObj1 = (CollidableObject*)dGeomGetData(g1);
 		CollidableObject* colObj2 = (CollidableObject*)dGeomGetData(g2);
 		colObj1->OnCollide(colObj2);
