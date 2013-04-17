@@ -10,18 +10,18 @@ Whacker::Whacker(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node
 	: CollidableObject(parent_node)
 {
 	mSceneNode = parent_node->createChildSceneNode("WhackerNode_"+parent_node->getName());
-	Ogre::Entity* hammerMesh = scene_manager->createEntity("Whacker"+parent_node->getName(), "Hammer.mesh");
-	mSceneNode->attachObject(hammerMesh);
-	Ogre::ParticleSystem* particleSystem = scene_manager->createParticleSystem("Whacker", "SlayADragon/Whack");
-	mParticleNode = parent_node->createChildSceneNode("ParticleNode");
-	mParticleNode->attachObject(particleSystem);
-	mParticleEmitter = (Ogre::PointEmitter*)particleSystem->getEmitter(0);
+	mEntity = scene_manager->createEntity("Whacker", "Hammer.mesh");
+	mSceneNode->attachObject(mEntity);
+	mParticleSystem = scene_manager->createParticleSystem("Whacker", "SlayADragon/Whack");
+	mParticleNode = parent_node->createChildSceneNode("WhackerParticleNode");
+	mParticleNode->attachObject(mParticleSystem);
+	mParticleEmitter = (Ogre::PointEmitter*)mParticleSystem->getEmitter(0);
 	mParticleEmitter->setDuration(0.3f);
 	mParticleEmitter->setEnabled(false);
 	isWhacking = false;
 	targetPitch = 0.0f;
 	curPitch = 0.0f;
-	whacksPerSecond = 2.0f;
+	whacksPerSecond = 4.0f;
 	scene_manager->_updateSceneGraph(scene_manager->getCamera("PlayerCam"));
 	Ogre::AxisAlignedBox boundBox = mSceneNode->_getWorldAABB();
 	SetCollideShapeBox(boundBox.getSize().x, boundBox.getSize().y * 0.1f, boundBox.getSize().z);
@@ -30,31 +30,13 @@ Whacker::Whacker(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node
 	mDidHitDragon = false;
 }
 
-Whacker::Whacker(Whacker& other)
-	: CollidableObject(NULL)
+Whacker::~Whacker()
 {
-	mParticleEmitter = other.mParticleEmitter;
-	mParticleNode = other.mParticleNode;
-	mEmitterOffset = other.mEmitterOffset;
-	isWhacking = other.isWhacking;
-	targetPitch = other.targetPitch;
-	curPitch = other.curPitch;
-	whacksPerSecond = other.whacksPerSecond;
-	mDidHitDragon = other.mDidHitDragon;
-	CollidableObject::CollidableObject(other);
-}
-
-Whacker& Whacker::operator=( const Whacker& rhs ) {
-	mParticleEmitter = rhs.mParticleEmitter;
-	mParticleNode = rhs.mParticleNode;
-	mEmitterOffset = rhs.mEmitterOffset;
-	isWhacking = rhs.isWhacking;
-	targetPitch = rhs.targetPitch;
-	curPitch = rhs.curPitch;
-	whacksPerSecond = rhs.whacksPerSecond;
-	mDidHitDragon = rhs.mDidHitDragon;
-	CollidableObject::operator=(rhs);
-	return *this;
+	//Destroy all entities created
+	Ogre::SceneManager* mSceneManager = Ogre::Root::getSingletonPtr()->getSceneManager("ApplicationSceneManager");
+	mSceneManager->destroyEntity(mEntity->getName());
+	mSceneManager->destroyParticleSystem(mParticleSystem->getName());
+	mSceneNode->getParentSceneNode()->removeAndDestroyChild(mParticleNode->getName());
 }
 
 void Whacker::SetMovePlane(Ogre::Vector3 normal, Ogre::Vector3 origin, Ogre::Real width, Ogre::Real height)

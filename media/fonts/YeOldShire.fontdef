@@ -1,0 +1,9 @@
+YeOldShire
+{
+	type 		truetype
+	source 		YeOldShire.ttf
+	size 		16
+	resolution 	512
+}
+
+

@@ -7,12 +7,14 @@
 #include <OgreMath.h>
 #include <OgreParticleSystem.h>
 #include <OgrePointEmitter.h>
+#include <OgreRoot.h>
 
 class Dragon : public CollidableObject
 {
 public:
 	Dragon();
 	Dragon(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node);
+	Dragon::~Dragon();
 	void SetPosition(Ogre::Vector3 pos);
 	bool Popup();
 	void OnCollide(CollidableObject* other);
@@ -31,6 +33,9 @@ private:
 	bool mDidBreathFire;
 	//Particle Vars
 	Ogre::PointEmitter* mParticleEmitter;
+	Ogre::Entity* mEntity;
+	Ogre::ParticleSystem* mParticleSystem;
+	Ogre::SceneNode* mParticleNode;
 };
 
 

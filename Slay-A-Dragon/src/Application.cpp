@@ -90,6 +90,11 @@ void Application::createCamera(void)
 void Application::createScene(void)
 {
     // Lets initialize our first screen here
+	mSceneMgr->setSkyBox(true, "SlayADragon/SkyBox");
+	Ogre::Light* directionalLight = mSceneMgr->createLight("directionalLight");
+	directionalLight->setType(Ogre::Light::LT_DIRECTIONAL);
+	directionalLight->setPosition(Ogre::Vector3(0, 0, 250));
+	directionalLight->setDirection(Ogre::Vector3( 0, 1, -1 ));
 	ScreenManager::GetInstance()->SetScreen(new GameplayScreen());
 }
 //-------------------------------------------------------------------------------------
@@ -183,6 +188,11 @@ void Application::setupResources(void)
                 archName, typeName, secName);
         }
     }
+	Ogre::ResourceManager::ResourceMapIterator iter = Ogre::FontManager::getSingleton().getResourceIterator();
+	while (iter.hasMoreElements()) 
+	{
+		iter.getNext()->load();
+	}
 }
 //-------------------------------------------------------------------------------------
 void Application::createResourceListener(void)

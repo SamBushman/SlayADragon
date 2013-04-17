@@ -6,7 +6,7 @@ CollidableObject::CollidableObject(Ogre::SceneNode* parent_node)
 	isInWorld = false;
 	geomOffset = Ogre::Vector3(0.0f, 0.0f, 0.0f);
 }
-
+/*
 CollidableObject::CollidableObject(CollidableObject& other)
 {
 	//PhysWorld::GetSingletonPtr()->UpdateObjPtr(other.mGeom, this);
@@ -28,10 +28,14 @@ CollidableObject& CollidableObject::operator=( const CollidableObject& rhs ) {
 	Update(0.0f); //Ensure the geom's position and orientation match the attached scene node
 	return *this;
 }
-
+*/
 CollidableObject::~CollidableObject()
 {
 	//Disconnect any objects in the scene
+	mSceneNode->removeAndDestroyAllChildren();
+	mSceneNode->getParentSceneNode()->removeAndDestroyChild(mSceneNode->getName());
+	if(isInWorld)
+		dGeomDestroy(mGeom);
 }
 
 void CollidableObject::SetCollideShapeCylinder(dReal radius, dReal length)
@@ -84,7 +88,7 @@ void CollidableObject::SetCanCollide(bool canCollide)
 
 bool CollidableObject::GetCanCollide()
 {
-	return dGeomIsEnabled(mGeom);
+	return (bool)dGeomIsEnabled(mGeom);
 }
 
 void CollidableObject::OnCollide(CollidableObject* other)

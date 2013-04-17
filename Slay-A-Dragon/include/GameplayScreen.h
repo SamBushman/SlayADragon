@@ -4,6 +4,9 @@
 #include <ScreenManager.h>
 #include <Whacker.h>
 #include <Dragon.h>
+#include <OgreTextAreaOverlayElement.h>
+#include <OgreFontManager.h>
+#include <GameOverScreen.h>
 
 class GameplayScreen : public IScreen
 {
@@ -17,14 +20,19 @@ public:
 	void OnMouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 	void Update(Ogre::Real timeSinceLastFrame);
 private:
-	Ogre::Entity* mStageEntity;
 	Ogre::SceneNode* mStageNode;
-	Whacker mWhacker;
-	std::vector<Dragon> mDragons;
+	Ogre::Overlay* mOverlay;
+	Ogre::TextAreaOverlayElement* mScoreText;
+	Ogre::TextAreaOverlayElement* mPeasantText;
+	Whacker* mWhacker;
+	std::vector<Dragon*> mDragons;
 	float timeBetweenPopups;
 	float timeSinceLastPopup;
 	unsigned int score;
 	int numPeasants;
+	float subtractPopTime;
+	unsigned int scorePerPopTimeSub;
+	float minPopTime;
 };
 
 #endif

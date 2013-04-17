@@ -29,8 +29,8 @@ protected:
 
 public:
 	CollidableObject(Ogre::SceneNode* parent_node);
-	CollidableObject(CollidableObject& other);
-	CollidableObject& operator=( const CollidableObject& rhs );
+	//CollidableObject(CollidableObject& other);
+	//CollidableObject& operator=( const CollidableObject& rhs );
 	virtual ~CollidableObject();
 	const Ogre::SceneNode* GetSceneNode();
 	virtual void OnCollide(CollidableObject* other);
