@@ -31,13 +31,10 @@ This source file is part of the
 #include <OISKeyboard.h>
 #include <OISMouse.h>
 
-#include <SdkTrays.h>
-#include <SdkCameraMan.h>
-
 #include "ScreenManager.h"
 #include "GameplayScreen.h"
 
-class Application : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
+class Application : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener
 {
 public:
     Application(void);
@@ -82,10 +79,6 @@ private:
     Ogre::String mResourcesCfg;
     Ogre::String mPluginsCfg;
 
-    // OgreBites
-    //OgreBites::SdkTrayManager* mTrayMgr;
-    //OgreBites::SdkCameraMan* mCameraMan;       // basic camera controller
-    //OgreBites::ParamsPanel* mDetailsPanel;     // sample details panel
     bool mCursorWasVisible;                    // was cursor visible before dialog appeared
     bool mShutDown;
 

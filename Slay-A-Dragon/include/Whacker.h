@@ -1,3 +1,6 @@
+//This header and cpp define the hammer object that is to
+//whack dragons in the game.
+
 #ifndef WHACKER_H
 #define WHACKER_H
 
@@ -12,11 +15,8 @@
 class Whacker : public CollidableObject
 {
 public:
-	Whacker();
 	~Whacker();
 	Whacker(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node);
-	//Whacker::Whacker(Whacker& other);
-	//Whacker& Whacker::operator=( const Whacker& rhs );
 	void SetMovePlane(Ogre::Vector3 normal, Ogre::Vector3 origin, Ogre::Real width, Ogre::Real height);
 	void Move(Ogre::Real delta_x, Ogre::Real delta_y);
 	bool Whack();

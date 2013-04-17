@@ -1,5 +1,8 @@
-#ifndef MDI_PHYS_HPP
-#define MDI_PHYS_HPP
+//This header and cpp define an interface with the collision detection
+//system in the Open Dynamics Engine.
+
+#ifndef COLLISIONDETECTION_H
+#define COLLISIONDETECTION_H
 
 #define dSINGLE
 #include <ode\ode.h>
@@ -10,9 +13,14 @@
 #include <OgreVector4.h>
 #include <OgreQuaternion.h>
 #include <OgreSceneNode.h>
+#include <OgreStringConverter.h>
 
-enum BoundingShape { BOX, SPHERE, CAPSULE, CYLINDER};
-
+//The CollidableObject class acts as an abstract class that defines
+//an object in the 3D environment that interfaces with the ODE
+//collision detection system. The management of the object's
+//interactions with the collision detection system is abstracted
+//to the CollidableObject's constructor and its few convenience
+//functions.
 class CollidableObject
 {
 protected:
@@ -29,24 +37,21 @@ protected:
 
 public:
 	CollidableObject(Ogre::SceneNode* parent_node);
-	//CollidableObject(CollidableObject& other);
-	//CollidableObject& operator=( const CollidableObject& rhs );
 	virtual ~CollidableObject();
-	const Ogre::SceneNode* GetSceneNode();
-	virtual void OnCollide(CollidableObject* other);
+	virtual void OnCollide(CollidableObject* other)=0;
 	virtual void Update(Ogre::Real timeSinceLastFrame);
 };
 
+//This class is a singleton class that wraps essential funcitons
+//from ODE's world and space classes. The stepping and configuration
+//of ODE's simulation happens here.
 class PhysWorld
 {
 public:
     //Attributes
     dWorldID mWorld;
     dSpaceID mSpace;
-	std::vector<dSpaceID> mSubSpaces;
-    dJointGroupID mContactJoints;
 	bool isInitialized;
-	int numContactJoints;
 
     //Methods
 	void Initialize();
@@ -55,19 +60,6 @@ public:
     ~PhysWorld();
     void Update(double timeSinceLastFrame);
 	static void mCallback(void * data, dGeomID g1, dGeomID g2);
-    dReal GetWorldERP();
-    void SetWorldERP(dReal val);
-    dReal GetWorldCFM();
-    void SetWorldCFM(dReal val);
-    Ogre::Vector3 GetWorldGravity();
-    void SetWorldGravity(Ogre::Vector3 grav);
-    void SetWorldGravity(dReal x, dReal y, dReal z);
-    int GetStepIterations();
-    void SetStepIterations(int val);
-    dReal GetMaxCorrectionVel();
-    void SetMaxCorrectionVel(dReal val);
-    dReal GetContactDepth();
-    void SetContactDepth(dReal d);
 	dGeomID AddCylinder(dReal radius, dReal length);
 	dGeomID AddBox(dReal lx, dReal ly, dReal lz);
 	dGeomID AddSphere(dReal radius);

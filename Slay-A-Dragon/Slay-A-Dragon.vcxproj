@@ -66,7 +66,8 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(ProjectDir)\ode\include;$(ProjectDir)\include;$(ProjectDir)\OgreSDK_1-8-1\boost;$(ProjectDir)\OgreSDK_1-8-1\include\OIS;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE\Plugins\ParticleFX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/wd4275
-/wd4251 %(AdditionalOptions)</AdditionalOptions>
+/wd4251 
+/wd4193 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -95,7 +96,8 @@ xcopy "$(ProjectDir)ode\bin\ode_single.dll" "$(TargetDir)" /Y</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(ProjectDir)\OgreSDK_1-8-1\include\OGRE\Plugins\ParticleFX;$(ProjectDir)\ode\include;$(ProjectDir)\include;$(ProjectDir)\OgreSDK_1-8-1\boost;$(ProjectDir)\OgreSDK_1-8-1\include\OIS;$(ProjectDir)\OgreSDK_1-8-1\include\OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/wd4275
-/wd4251 %(AdditionalOptions)</AdditionalOptions>
+/wd4251 
+/wd4193 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

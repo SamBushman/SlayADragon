@@ -1,3 +1,6 @@
+//This header and cpp define the dragon object that is to
+//be whacked in the game.
+
 #ifndef DRAGON_H
 #define DRAGON_H
 
@@ -12,7 +15,6 @@
 class Dragon : public CollidableObject
 {
 public:
-	Dragon();
 	Dragon(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node);
 	Dragon::~Dragon();
 	void SetPosition(Ogre::Vector3 pos);
@@ -22,6 +24,8 @@ public:
 	bool didBreathFire();
 
 private:
+	bool mDidBreathFire;
+	//Animation Vars
 	float mPopHeight;
 	char mMoveDirection;
 	float mTimeWaiting;
@@ -30,7 +34,6 @@ private:
 	float mPopSpeed;
 	float mStartHeight;
 	bool isPopping;
-	bool mDidBreathFire;
 	//Particle Vars
 	Ogre::PointEmitter* mParticleEmitter;
 	Ogre::Entity* mEntity;

@@ -34,6 +34,7 @@ GameplayScreen::GameplayScreen()
 	subtractPopTime = 0.05f;
 	scorePerPopTimeSub = 15;
 	minPopTime = 0.75f;
+	mWhackerMoveScalar = 0.01f;
 
 	//Lets set up our scoring overlay (Lots of uninteresting code :/ )
 	//Fonts are loaded due to a resource loading bug in OGRE 1.8 http://www.ogre3d.org/forums/viewtopic.php?f=2&t=63652
@@ -46,13 +47,13 @@ GameplayScreen::GameplayScreen()
 	newContainer->setMetricsMode(Ogre::GMM_RELATIVE);
     newContainer->setDimensions(0.4f, 0.15f);
     newContainer->setPosition(0.5f, 0.75f);
-	newContainer->setHorizontalAlignment(Ogre::GuiHorizontalAlignment::GHA_LEFT);
+	newContainer->setHorizontalAlignment(Ogre::GHA_LEFT);
 	Ogre::TextAreaOverlayElement* newElement = static_cast<Ogre::TextAreaOverlayElement*>(overlayMgr->createOverlayElement("TextArea", "ScoreTitleText"));
 	newElement->setCaption("Score");
 	newElement->setFontName("YeOldShire");
 	newElement->setColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
-	newElement->setAlignment(Ogre::TextAreaOverlayElement::Alignment::Right);
-	newElement->setVerticalAlignment(Ogre::GuiVerticalAlignment::GVA_TOP);
+	newElement->setAlignment(Ogre::TextAreaOverlayElement::Right);
+	newElement->setVerticalAlignment(Ogre::GVA_TOP);
 	newElement->setMetricsMode(Ogre::GMM_RELATIVE);
     newElement->setPosition(0, 0);
     newElement->setDimensions(0.4f, 0.4f);
@@ -62,8 +63,8 @@ GameplayScreen::GameplayScreen()
 	newElement->setCaption("Peasants Left");
 	newElement->setFontName("YeOldShire");
 	newElement->setColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
-	newElement->setAlignment(Ogre::TextAreaOverlayElement::Alignment::Right);
-	newElement->setVerticalAlignment(Ogre::GuiVerticalAlignment::GVA_BOTTOM);
+	newElement->setAlignment(Ogre::TextAreaOverlayElement::Right);
+	newElement->setVerticalAlignment(Ogre::GVA_BOTTOM);
 	newElement->setMetricsMode(Ogre::GMM_RELATIVE);
     newElement->setPosition(0, 0);
     newElement->setDimensions(0.4f, 0.4f);
@@ -75,15 +76,15 @@ GameplayScreen::GameplayScreen()
 	newContainer->setMetricsMode(Ogre::GMM_RELATIVE);
     newContainer->setDimensions(0.4f, 0.15f);
     newContainer->setPosition(0.5f, 0.75f);
-	newContainer->setHorizontalAlignment(Ogre::GuiHorizontalAlignment::GHA_LEFT);
+	newContainer->setHorizontalAlignment(Ogre::GHA_LEFT);
 	newContainer->setColour(Ogre::ColourValue(1.0f, 1.0f, 1.0f, 0.3f));
 	newElement = static_cast<Ogre::TextAreaOverlayElement*>(overlayMgr->createOverlayElement("TextArea", "ScoreValueText"));
 	Ogre::String num_str = Ogre::StringConverter::toString(score);
 	newElement->setCaption(":"+num_str);
 	newElement->setFontName("DejaVuSans");
 	newElement->setColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
-	newElement->setAlignment(Ogre::TextAreaOverlayElement::Alignment::Left);
-	newElement->setVerticalAlignment(Ogre::GuiVerticalAlignment::GVA_TOP);
+	newElement->setAlignment(Ogre::TextAreaOverlayElement::Left);
+	newElement->setVerticalAlignment(Ogre::GVA_TOP);
 	newElement->setMetricsMode(Ogre::GMM_RELATIVE);
     newElement->setPosition(0, 0);
     newElement->setDimensions(0.4f, 0.4f);
@@ -95,8 +96,8 @@ GameplayScreen::GameplayScreen()
 	newElement->setCaption(":"+num_str);
 	newElement->setFontName("DejaVuSans");
 	newElement->setColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
-	newElement->setAlignment(Ogre::TextAreaOverlayElement::Alignment::Left);
-	newElement->setVerticalAlignment(Ogre::GuiVerticalAlignment::GVA_BOTTOM);
+	newElement->setAlignment(Ogre::TextAreaOverlayElement::Left);
+	newElement->setVerticalAlignment(Ogre::GVA_BOTTOM);
 	newElement->setMetricsMode(Ogre::GMM_RELATIVE);
     newElement->setPosition(0, 0);
     newElement->setDimensions(0.4f, 0.4f);
@@ -123,6 +124,8 @@ GameplayScreen::~GameplayScreen()
 	mStageNode->removeAndDestroyAllChildren();
 	mStageNode->getParentSceneNode()->removeAndDestroyChild(mStageNode->getName());
 	//Destroy our score overlay
+	//To do this, we must traverse all elements contained within
+	//the overlay and remove them one at a time.
 	Ogre::OverlayManager* overlayMgr = Ogre::OverlayManager::getSingletonPtr();
 	Ogre::Overlay::Overlay2DElementsIterator iter = mOverlay->get2DElementsIterator();
 	for(;iter.hasMoreElements();)
@@ -151,12 +154,12 @@ void GameplayScreen::OnKeyReleased(const OIS::KeyEvent &arg)
 
 void GameplayScreen::OnMouseMoved(const OIS::MouseEvent &arg)
 {
-	mWhacker->Move(arg.state.X.rel * 0.01f, arg.state.Y.rel * 0.01f);
+	mWhacker->Move(arg.state.X.rel * mWhackerMoveScalar, arg.state.Y.rel * mWhackerMoveScalar);
 }
 
 void GameplayScreen::OnMousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
-	if(arg.state.buttonDown(OIS::MouseButtonID::MB_Left))
+	if(arg.state.buttonDown(OIS::MB_Left))
 	{
 		mWhacker->Whack();
 	}
@@ -191,6 +194,9 @@ void GameplayScreen::Update(Ogre::Real timeSinceLastFrame)
 	timeSinceLastPopup += timeSinceLastFrame;
 	if(timeSinceLastPopup >= timeBetweenPopups)
 	{
+		//We randomly pick a dragon and try to pop it.
+		//If it doesn't pop, we iterate through all the
+		//other dragons until we pop one or run out of dragons
 		int randDragon = std::rand() % 7;
 		for(int i=0; i < 7; i++)
 		{

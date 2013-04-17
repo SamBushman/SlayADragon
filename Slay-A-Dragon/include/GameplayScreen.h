@@ -1,3 +1,6 @@
+//This header and cpp define the main application state where
+//the game takes place
+
 #ifndef GAMEPLAYSCREEN_H
 #define GAMEPLAYSCREEN_H
 
@@ -20,12 +23,15 @@ public:
 	void OnMouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 	void Update(Ogre::Real timeSinceLastFrame);
 private:
+	//Ogre 3D scene objects
 	Ogre::SceneNode* mStageNode;
 	Ogre::Overlay* mOverlay;
 	Ogre::TextAreaOverlayElement* mScoreText;
 	Ogre::TextAreaOverlayElement* mPeasantText;
+	//Game objects
 	Whacker* mWhacker;
 	std::vector<Dragon*> mDragons;
+	//Game rule variables
 	float timeBetweenPopups;
 	float timeSinceLastPopup;
 	unsigned int score;
@@ -33,6 +39,7 @@ private:
 	float subtractPopTime;
 	unsigned int scorePerPopTimeSub;
 	float minPopTime;
+	float mWhackerMoveScalar;
 };
 
 #endif

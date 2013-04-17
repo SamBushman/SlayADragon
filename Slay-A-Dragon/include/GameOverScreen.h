@@ -1,3 +1,5 @@
+//This header and cpp defines the application state seen when a "Game Over" happens
+
 #ifndef GAMEOVERSCREEN_H
 #define GAMEOVERSCREEN_H
 

@@ -6,20 +6,20 @@ GameoverScreen::GameoverScreen(unsigned int score)
 	//Fonts are loaded due to a resource loading bug in OGRE 1.8 http://www.ogre3d.org/forums/viewtopic.php?f=2&t=63652
 	Ogre::FontManager::getSingleton().load( "YeOldShire", "General" );
 	Ogre::FontManager::getSingleton().load( "DejaVuSans", "General" );
-	//Title overlays
+	//Fancy "Ye Old" looking text
 	Ogre::OverlayManager* overlayMgr = Ogre::OverlayManager::getSingletonPtr();
 	mOverlay = overlayMgr->create("GameOver");
 	Ogre::OverlayContainer* newContainer = static_cast<Ogre::OverlayContainer*>(overlayMgr->createOverlayElement("Panel", "GameOverContainer"));
 	newContainer->setMetricsMode(Ogre::GMM_RELATIVE);
     newContainer->setDimensions(0.4f, 0.15f);
     newContainer->setPosition(0.5f, 0.5f);
-	newContainer->setHorizontalAlignment(Ogre::GuiHorizontalAlignment::GHA_LEFT);
+	newContainer->setHorizontalAlignment(Ogre::GHA_LEFT);
 	Ogre::TextAreaOverlayElement* newElement = static_cast<Ogre::TextAreaOverlayElement*>(overlayMgr->createOverlayElement("TextArea", "GameOverText"));
 	newElement->setCaption("Game Over");
 	newElement->setFontName("YeOldShire");
 	newElement->setColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
-	newElement->setAlignment(Ogre::TextAreaOverlayElement::Alignment::Center);
-	newElement->setVerticalAlignment(Ogre::GuiVerticalAlignment::GVA_TOP);
+	newElement->setAlignment(Ogre::TextAreaOverlayElement::Center);
+	newElement->setVerticalAlignment(Ogre::GVA_TOP);
 	newElement->setMetricsMode(Ogre::GMM_RELATIVE);
     newElement->setPosition(0, 0);
     newElement->setDimensions(0.4f, 0.4f);
@@ -29,8 +29,8 @@ GameoverScreen::GameoverScreen(unsigned int score)
 	newElement->setCaption("Score");
 	newElement->setFontName("YeOldShire");
 	newElement->setColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
-	newElement->setAlignment(Ogre::TextAreaOverlayElement::Alignment::Right);
-	newElement->setVerticalAlignment(Ogre::GuiVerticalAlignment::GVA_CENTER);
+	newElement->setAlignment(Ogre::TextAreaOverlayElement::Right);
+	newElement->setVerticalAlignment(Ogre::GVA_CENTER);
 	newElement->setMetricsMode(Ogre::GMM_RELATIVE);
     newElement->setPosition(0, 0);
     newElement->setDimensions(0.4f, 0.4f);
@@ -40,28 +40,28 @@ GameoverScreen::GameoverScreen(unsigned int score)
 	newElement->setCaption("Press ENTER to play again");
 	newElement->setFontName("YeOldShire");
 	newElement->setColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
-	newElement->setAlignment(Ogre::TextAreaOverlayElement::Alignment::Center);
-	newElement->setVerticalAlignment(Ogre::GuiVerticalAlignment::GVA_BOTTOM);
+	newElement->setAlignment(Ogre::TextAreaOverlayElement::Center);
+	newElement->setVerticalAlignment(Ogre::GVA_BOTTOM);
 	newElement->setMetricsMode(Ogre::GMM_RELATIVE);
     newElement->setPosition(0, 0);
     newElement->setDimensions(0.4f, 0.4f);
     newElement->setCharHeight(0.028f);
 	newContainer->addChild(newElement);
 	mOverlay->add2D(newContainer);
-
+	//Numerical text
 	newContainer = static_cast<Ogre::OverlayContainer*>(overlayMgr->createOverlayElement("Panel", "GameOverScoreValueContainer"));
 	newContainer->setMetricsMode(Ogre::GMM_RELATIVE);
     newContainer->setDimensions(0.4f, 0.15f);
     newContainer->setPosition(0.5f, 0.5f);
-	newContainer->setHorizontalAlignment(Ogre::GuiHorizontalAlignment::GHA_LEFT);
+	newContainer->setHorizontalAlignment(Ogre::GHA_LEFT);
 	newContainer->setColour(Ogre::ColourValue(1.0f, 1.0f, 1.0f, 0.3f));
 	newElement = static_cast<Ogre::TextAreaOverlayElement*>(overlayMgr->createOverlayElement("TextArea", "GameOverScoreValueText"));
 	Ogre::String num_str = Ogre::StringConverter::toString(score);
 	newElement->setCaption(":"+num_str);
 	newElement->setFontName("DejaVuSans");
 	newElement->setColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
-	newElement->setAlignment(Ogre::TextAreaOverlayElement::Alignment::Left);
-	newElement->setVerticalAlignment(Ogre::GuiVerticalAlignment::GVA_CENTER);
+	newElement->setAlignment(Ogre::TextAreaOverlayElement::Left);
+	newElement->setVerticalAlignment(Ogre::GVA_CENTER);
 	newElement->setMetricsMode(Ogre::GMM_RELATIVE);
     newElement->setPosition(0, 0);
     newElement->setDimensions(0.4f, 0.4f);
@@ -75,6 +75,8 @@ GameoverScreen::GameoverScreen(unsigned int score)
 GameoverScreen::~GameoverScreen()
 {
 	//Remove our overlay
+	//To do this, we must traverse all elements contained within
+	//the overlay and remove them one at a time.
 	Ogre::OverlayManager* overlayMgr = Ogre::OverlayManager::getSingletonPtr();
 	Ogre::Overlay::Overlay2DElementsIterator iter = mOverlay->get2DElementsIterator();
 	for(;iter.hasMoreElements();)
